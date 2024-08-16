@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<body>
+  <div class="container">
+    <h1>ALTIMETRIK</h1>
+    <h2>Job Application Form</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h3>Personal Information</h3>
+      <div class="two-column">
+        <div>
+          <label for="firstname">Firstname:</label>
+          <input id="firstname" formControlName="firstname" />
+          <div *ngIf="form.get('firstname')?.invalid && form.get('firstname')?.touched">
+            <small *ngIf="form.get('firstname')?.errors?.['required']">Firstname is required.</small>
+            <small *ngIf="!form.get('firstname')?.errors?.['required'] && (form.get('firstname')?.errors?.['minlength']
+              || form.get('firstname')?.errors?.['maxlength'])">Firstname should be 2-40 characters length.</small>
+            <small *ngIf="!form.get('firstname')?.errors?.['required'] && form.get('firstname')?.errors?.['alphaSpace']">Firstname is invalid.</small>
+          </div>
+        </div>
+
+        <div>
+          <label for="lastname">Lastname:</label>
+          <input id="lastname" formControlName="lastname" />
+          <div *ngIf="form.get('lastname')?.invalid && form.get('lastname')?.touched">
+            <small *ngIf="form.get('lastname')?.errors?.['required']">Lastname is required.</small>
+            <small *ngIf="!form.get('lastname')?.errors?.['required'] && (form.get('lastname')?.errors?.['minlength']
+              || form.get('lastname')?.errors?.['maxlength'])">Lastname should be 2-40 characters length.</small>
+            <small *ngIf="!form.get('lastname')?.errors?.['required'] && form.get('lastname')?.errors?.['alphaSpace']">Lastname is invalid.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-column">
+        <div>
+          <label for="email">Email:</label>
+          <input id="email" formControlName="email" />
+          <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+            <small *ngIf="form.get('email')?.errors?.['required']
+              || form.get('email')?.errors?.['email']">Valid email is required.</small>
+            <small *ngIf="form.get('email')?.errors?.['maxlength']">Email should be less than 40 characters.</small>
+          </div>
+        </div>
+
+        <div>
+          <label for="mobile">Mobile Number (+91):</label>
+          <input type="number" id="mobile" formControlName="mobile" />
+          <div *ngIf="form.get('mobile')?.invalid && form.get('mobile')?.touched">
+            <small *ngIf="form.get('mobile')?.errors?.['required']">Mobile number is required.</small>
+            <small *ngIf="form.get('mobile')?.errors?.['pattern']">Mobile number is invalid. Should have 10 numbers.</small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" formControlName="birthday" />
+        <div *ngIf="form.get('birthday')?.invalid && form.get('birthday')?.touched">
+          <small *ngIf="form.get('birthday')?.errors?.['required']">Birthdate is required.</small>
+          <small *ngIf="form.get('birthday')?.errors?.['age']">Age should be ranges from 18-50</small>
+        </div>
+      </div>
+
+      <div formGroupName="address">
+        <h3>Current Address</h3>
+        <div>
+          <label for="street">Street Address:</label>
+          <input id="street" formControlName="street" />
+          <div *ngIf="form.get('address.street')?.invalid && form.get('address.street')?.touched">
+            <small *ngIf="form.get('address.street')?.errors?.['required']">Street address is required.</small>
+            <small *ngIf="form.get('address.street')?.errors?.['minlength']
+              || form.get('address.street')?.errors?.['maxlength']">Street address should be 5-80 characters length.</small>
+            <small *ngIf="!form.get('address.street')?.errors?.['required'] && form.get('address.street')?.errors?.['alphaSpace']">Street address is invalid.</small>
+          </div>
+        </div>
+
+        <div>
+          <label for="city">City:</label>
+          <input id="city" formControlName="city" />
+          <div *ngIf="form.get('address.city')?.invalid && form.get('address.city')?.touched">
+            <small *ngIf="form.get('address.city')?.errors?.['required']">City is required.</small>
+            <small *ngIf="form.get('address.city')?.errors?.['minlength']
+              || form.get('address.city')?.errors?.['maxlength']">City should be 2-30 characters length.</small>
+            <small *ngIf="!form.get('address.city')?.errors?.['required'] && form.get('address.city')?.errors?.['alphaSpace']">City is invalid.</small>
+          </div>
+        </div>
+
+        <div>
+          <label for="state">State:</label>
+          <input id="state" formControlName="state" />
+          <div *ngIf="form.get('address.state')?.invalid && form.get('address.state')?.touched">
+            <small *ngIf="form.get('address.state')?.errors?.['required']">State is required.</small>
+            <small *ngIf="form.get('address.state')?.errors?.['minlength']
+              || form.get('address.state')?.errors?.['maxlength']">State should be 2-30 characters length.</small>
+            <small *ngIf="!form.get('address.state')?.errors?.['required'] && form.get('address.state')?.errors?.['alphaSpace']">State is invalid.</small>
+          </div>
+        </div>
+
+        <div>
+          <label for="zip">Zip Code:</label>
+          <input id="zip" formControlName="zip" />
+          <div *ngIf="form.get('address.zip')?.invalid && form.get('address.zip')?.touched">
+            <small *ngIf="form.get('address.zip')?.errors?.['required']">Zip code is required.</small>
+            <small *ngIf="form.get('address.zip')?.errors?.['pattern']">Zip code is invalid. Should have 6 numbers.</small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="jobCategory">Job Category:</label>
+        <select id="jobCategory" formControlName="jobCategory">
+          <option value="">Select</option>
+          <option *ngFor="let category of jobCategories" [value]="category">{{ category }}</option>
+        </select>
+        <div *ngIf="form.get('jobCategory')?.invalid && form.get('jobCategory')?.touched">
+          <small>Job category is required.</small>
+        </div>
+      </div>
+
+      <div *ngIf="showAdditionalFields">
+        <h3>Additional Information</h3>
+
+        <div *ngIf="form.get('jobCategory')?.value === 'Fresher'">
+          <div>
+            <label for="graduationYear">Graduation Year:</label>
+            <input type="number" id="graduationYear" formControlName="graduationYear" />
+            <div *ngIf="form.get('graduationYear')?.invalid && form.get('graduationYear')?.touched">
+              <small *ngIf="form.get('graduationYear')?.errors?.['required']">Graduation Year is required.</small>
+              <small *ngIf="form.get('graduationYear')?.errors?.['yearRange']">Graduation Year should be in 2022-2024.</small>
+            </div>
+          </div>
+
+          <div>
+            <label for="highestQualification">Highest Qualification:</label>
+            <input id="highestQualification" formControlName="highestQualification" />
+            <div *ngIf="form.get('highestQualification')?.invalid && form.get('highestQualification')?.touched">
+              <small *ngIf="form.get('highestQualification')?.errors?.['required']">Highest Qualification is required.</small>
+              <small *ngIf="form.get('highestQualification')?.errors?.['minlength']
+                || form.get('highestQualification')?.errors?.['maxlength']">Highest Qualification should be 2-30 characters length.</small>
+              <small *ngIf="!form.get('highestQualification')?.errors?.['required'] && form.get('highestQualification')?.errors?.['alphaSpace']">Highest Qualification is invalid.</small>
+            </div>
+          </div>
+
+          <div>
+            <label for="cgpa">CGPA(%):</label>
+            <input type="number" id="cgpa" formControlName="cgpa" />
+            <div *ngIf="form.get('cgpa')?.invalid && form.get('cgpa')?.touched">
+              <small *ngIf="form.get('cgpa')?.errors?.['required']">CGPA is required.</small>
+              <small *ngIf="form.get('cgpa')?.errors?.['range']">CGPA should be in range 60-100%</small>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="form.get('jobCategory')?.value === 'Internship'">
+          <div>
+            <label for="internshipType">Internship Type:</label>
+            <select id="internshipType" formControlName="internshipType">
+              <option value="">Select</option>
+              <option value="Part-Time">Part-Time</option>
+              <option value="Full-Time">Full-Time</option>
+            </select>
+            <div *ngIf="form.get('internshipType')?.invalid && form.get('internshipType')?.touched">
+              <small>Internship type is required.</small>
+            </div>
+          </div>
+
+          <div>
+            <label for="internDuration">Internship Duration (In months):</label>
+            <input type="number" id="internDuration" formControlName="internDuration" />
+            <div *ngIf="form.get('internDuration')?.invalid && form.get('internDuration')?.touched">
+              <small *ngIf="form.get('internDuration')?.errors?.['required']">Intern duration is required.</small>
+              <small *ngIf="form.get('internDuration')?.errors?.['range']">Intern duration should be in range 3-6 Months</small>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="form.get('jobCategory')?.value === 'Working Professional'">
+          <div>
+            <label for="currentEmployer">Current Employer:</label>
+            <input id="currentEmployer" formControlName="currentEmployer" />
+            <div *ngIf="form.get('currentEmployer')?.invalid && form.get('currentEmployer')?.touched">
+              <small *ngIf="form.get('currentEmployer')?.errors?.['required']">Current employer is required.</small>
+              <small *ngIf="form.get('currentEmployer')?.errors?.['minlength']
+                || form.get('currentEmployer')?.errors?.['maxlength']">Current Employer should be 2-60 characters length.</small>
+              <small *ngIf="!form.get('currentEmployer')?.errors?.['required'] && form.get('currentEmployer')?.errors?.['alphaSpace']">Current Employer is invalid.</small>
+            </div>
+          </div>
+
+          <div>
+            <label for="currentRole">Current Role:</label>
+            <input id="currentRole" formControlName="currentRole" />
+            <div *ngIf="form.get('currentRole')?.invalid && form.get('currentRole')?.touched">
+              <small *ngIf="form.get('currentRole')?.errors?.['required']">Current Role is required.</small>
+              <small *ngIf="form.get('currentRole')?.errors?.['minlength']
+                || form.get('currentRole')?.errors?.['maxlength']">Current Role should be 2-50 characters length.</small>
+              <small *ngIf="!form.get('currentRole')?.errors?.['required'] && form.get('currentRole')?.errors?.['alphaSpace']">Current currentRole is invalid.</small>
+            </div>
+          </div>
+
+          <div>
+            <label for="noticePeriod">Notice Period (In days):</label>
+            <input type="number" id="noticePeriod" formControlName="noticePeriod" />
+            <div *ngIf="form.get('noticePeriod')?.invalid && form.get('noticePeriod')?.touched">
+              <small *ngIf="form.get('noticePeriod')?.errors?.['required']">Notice period is required.</small>
+              <small *ngIf="form.get('noticePeriod')?.errors?.['range']">Notice period should be in range from 1-90 days.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</body>
